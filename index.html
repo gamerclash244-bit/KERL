@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kerala eRaja League – Rule the Game 👑</title>
+  <link rel="icon" href="logo.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --black: #0b0b0b;
+      --gold: #FFD700;
+      --gold-dim: #c9a900;
+      --gold-glow: rgba(255,215,0,0.35);
+      --green: #0f3d2e;
+      --green-light: #155e45;
+      --white: #f0f0f0;
+      --gray: #888;
+      --card-bg: #111;
+      --border: rgba(255,215,0,0.18);
+      --font-head: 'Orbitron', sans-serif;
+      --font-body: 'Poppins', sans-serif;
+      --transition: 0.3s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(11,11,11,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+    #navbar.scrolled { box-shadow: 0 4px 30px rgba(255,215,0,0.1); }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .nav-brand img {
+      height: 44px; width: auto;
+      filter: drop-shadow(0 0 8px var(--gold-glow));
+    }
+    .nav-brand span {
+      font-family: var(--font-head);
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      color: var(--white);
+      text-transform: uppercase;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .nav-links a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+    .nav-links .btn-register {
+      background: var(--gold);
+      color: var(--black);
+      padding: 8px 18px;
+      border-radius: 4px;
+      border-bottom: none;
+      font-weight: 700;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    .nav-links .btn-register:hover {
+      background: #fff200;
+      box-shadow: 0 0 18px var(--gold-glow);
+    }
+    /* Language toggle */
+    .lang-toggle {
+      display: flex; align-items: center; gap: 6px;
+      margin-left: 1.5rem;
+      font-size: 0.72rem; font-family: var(--font-head);
+      letter-spacing: 1px;
+    }
+    .lang-toggle button {
+      background: none; border: 1px solid var(--border);
+      color: var(--gray);
+      padding: 4px 10px; border-radius: 3px;
+      cursor: pointer; font-size: 0.7rem; font-family: var(--font-head);
+      transition: all var(--transition);
+    }
+    .lang-toggle button.active {
+      background: var(--gold); color: var(--black);
+      border-color: var(--gold); font-weight: 700;
+    }
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--gold); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* Mobile nav */
+    .mobile-nav {
+      display: none;
+      position: fixed; top: 70px; left: 0; right: 0; z-index: 999;
+      background: rgba(11,11,11,0.97);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 5%;
+      flex-direction: column; gap: 1.2rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: var(--font-head);
+      font-size: 0.85rem; letter-spacing: 1.5px;
+      color: var(--white); padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover { color: var(--gold); }
+    .mobile-lang { display: flex; gap: 8px; padding-top: 8px; }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    #hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    #hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; z-index: 0;
+    }
+    /* Mobile: hide video, show fallback */
+    .hero-mobile-bg {
+      display: none;
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(135deg, rgba(15,61,46,0.8) 0%, rgba(11,11,11,0.6) 100%),
+        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=80') center/cover no-repeat;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(11,11,11,0.55) 0%,
+        rgba(11,11,11,0.72) 60%,
+        rgba(11,11,11,0.95) 100%
+      );
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 0 5%;
+      animation: heroFadeUp 1.2s ease both;
+    }
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--font-head);
+      font-size: 0.65rem; letter-spacing: 4px;
+      padding: 6px 20px; border-radius: 50px;
+      margin-bottom: 1.5rem;
+      animation: pulse-border 2s infinite;
+    }
+    @keyframes pulse-border {
+      0%,100% { box-shadow: 0 0 0 0 var(--gold-glow); }
+      50% { box-shadow: 0 0 0 8px transparent; }
+    }
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .hero-title .gold { color: var(--gold); text-shadow: 0 0 30px var(--gold-glow); }
+    .hero-subtitle {
+      font-family: var(--font-head);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--gold);
+      letter-spacing: 3px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-family: var(--font-head);
+      font-size: 0.85rem; letter-spacing: 2px;
+      font-weight: 700;
+      padding: 16px 44px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      transition: all var(--transition);
+      box-shadow: 0 0 20px rgba(255,215,0,0.4);
+    }
+    .hero-cta:hover {
+      background: #fff200;
+      box-shadow: 0 0 40px rgba(255,215,0,0.7), 0 4px 20px rgba(0,0,0,0.5);
+      transform: translateY(-2px);
+    }
+    .hero-scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 6px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+    .hero-scroll-hint span {
+      font-size: 0.62rem; letter-spacing: 3px; color: var(--gray);
+      font-family: var(--font-head);
+    }
+    .hero-scroll-hint .arrow {
+      width: 20px; height: 20px; border-right: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ============================================================
+       SECTION SHARED
+    ============================================================ */
+    section { padding: 90px 5%; }
+    .section-tag {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-size: 0.6rem; letter-spacing: 4px;
+      color: var(--gold); text-transform: uppercase;
+      border-left: 3px solid var(--gold);
+      padding-left: 10px; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 700; letter-spacing: 1px;
+      margin-bottom: 1rem; line-height: 1.2;
+    }
+    .section-title .gold { color: var(--gold); }
+    .section-desc {
+      color: #aaa; font-size: 0.95rem;
+      max-width: 580px; margin-bottom: 2.5rem;
+    }
+    .btn-outline {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--font-head);
+      font-size: 0.72rem; letter-spacing: 2px;
+      padding: 12px 32px; border-radius: 4px;
+      text-transform: uppercase; font-weight: 600;
+      transition: all var(--transition);
+    }
+    .btn-outline:hover {
+      background: var(--gold); color: var(--black);
+      box-shadow: 0 0 22px var(--gold-glow);
+    }
+    .btn-gold {
+      display: inline-block;
+      background: var(--gold); color: var(--black);
+      font-family: var(--font-head);
+      font-size: 0.78rem; letter-spacing: 2px;
+      padding: 14px 38px; border-radius: 4px;
+      text-transform: uppercase; font-weight: 700;
+      border: none; cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+    .btn-gold:hover {
+      background: #fff200;
+      box-shadow: 0 0 32px rgba(255,215,0,0.7);
+      transform: translateY(-1px);
+    }
+
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       ABOUT PREVIEW
+    ============================================================ */
+    #about-preview {
+      background: linear-gradient(135deg, rgba(15,61,46,0.22) 0%, rgba(11,11,11,0) 60%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-img-wrap {
+      border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+      position: relative;
+    }
+    .about-img-wrap::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(15,61,46,0.6), transparent);
+      z-index: 1;
+    }
+    .about-img-wrap img {
+      width: 100%; height: 320px; object-fit: cover;
+      filter: grayscale(30%);
+    }
+    .about-stat-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--gold); color: var(--black);
+      font-family: var(--font-head); font-weight: 700;
+      padding: 18px 22px; border-radius: 6px;
+      text-align: center; z-index: 2;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .about-stat-badge .num { font-size: 2rem; line-height: 1; }
+    .about-stat-badge .lbl { font-size: 0.55rem; letter-spacing: 2px; }
+
+    /* ============================================================
+       TOURNAMENT INFO
+    ============================================================ */
+    #tournament {
+      background: #0d0d0d;
+    }
+    .tournament-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem; margin-top: 2.5rem;
+    }
+    .t-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .t-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold); transform: scaleX(0);
+      transition: transform var(--transition);
+    }
+    .t-card:hover::before { transform: scaleX(1); }
+    .t-card:hover {
+      border-color: var(--gold-dim);
+      box-shadow: 0 4px 30px rgba(255,215,0,0.1);
+      transform: translateY(-4px);
+    }
+    .t-card .icon {
+      font-size: 2.2rem; margin-bottom: 1rem;
+    }
+    .t-card h3 {
+      font-family: var(--font-head);
+      font-size: 0.8rem; letter-spacing: 1.5px;
+      color: var(--gold); margin-bottom: 0.7rem;
+      text-transform: uppercase;
+    }
+    .t-card p { color: #aaa; font-size: 0.88rem; }
+
+    /* ============================================================
+       SLOT COUNTER
+    ============================================================ */
+    #slots {
+      text-align: center;
+      background: linear-gradient(180deg, #0d0d0d, var(--black));
+      padding: 70px 5%;
+    }
+    .slot-display {
+      display: inline-flex; flex-direction: column; align-items: center;
+      gap: 1.2rem;
+    }
+    .slot-nums {
+      font-family: var(--font-head);
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 40px var(--gold-glow);
+      letter-spacing: 4px;
+    }
+    .slot-bar-wrap {
+      width: min(500px, 80vw);
+      height: 12px; background: #1a1a1a;
+      border-radius: 50px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .slot-bar {
+      height: 100%; background: linear-gradient(90deg, var(--green-light), var(--gold));
+      border-radius: 50px;
+      transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+      width: 0%;
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+    .slot-label {
+      font-family: var(--font-head);
+      font-size: 0.7rem; letter-spacing: 3px;
+      color: var(--gray); text-transform: uppercase;
+    }
+
+    /* ============================================================
+       REGISTRATION SECTION
+    ============================================================ */
+    #register {
+      background: #0a0a0a;
+      border-top: 1px solid var(--border);
+    }
+    .register-wrap {
+      display: flex; justify-content: center;
+    }
+    .register-card {
+      background: #101010;
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 3rem 3rem;
+      width: 100%; max-width: 560px;
+      box-shadow: 0 0 60px rgba(255,215,0,0.07);
+      position: relative; overflow: hidden;
+    }
+    .register-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+    }
+    .register-card h2 {
+      font-family: var(--font-head);
+      font-size: 1.2rem; letter-spacing: 2px;
+      color: var(--gold); margin-bottom: 2rem;
+      text-align: center;
+    }
+    .form-group { margin-bottom: 1.3rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.72rem; letter-spacing: 1.5px;
+      color: var(--gray); margin-bottom: 0.5rem;
+      font-family: var(--font-head); text-transform: uppercase;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: #181818; border: 1px solid #2a2a2a;
+      color: var(--white); font-family: var(--font-body);
+      font-size: 0.9rem; padding: 12px 16px;
+      border-radius: 6px; outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-group select option { background: #181818; }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(255,215,0,0.08);
+    }
+    .form-group input::placeholder { color: #444; }
+    .device-group {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .device-option { position: relative; }
+    .device-option input[type="radio"] { display: none; }
+    .device-option label {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #181818; border: 1px solid #2a2a2a;
+      border-radius: 6px; padding: 12px;
+      cursor: pointer; font-size: 0.85rem;
+      font-family: var(--font-body); letter-spacing: 0.5px;
+      color: var(--gray); text-transform: none;
+      transition: all var(--transition);
+    }
+    .device-option input:checked + label {
+      border-color: var(--gold); color: var(--gold);
+      background: rgba(255,215,0,0.07);
+    }
+    .device-option label .emoji { font-size: 1.1rem; }
+    .rules-agree {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin: 1.5rem 0;
+    }
+    .rules-agree input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: var(--gold); margin-top: 2px; flex-shrink: 0;
+    }
+    .rules-agree span {
+      font-size: 0.8rem; color: #aaa; line-height: 1.5;
+    }
+    .rules-agree a { color: var(--gold); }
+    .form-submit {
+      width: 100%; padding: 15px;
+      background: var(--gold); color: var(--black);
+      border: none; border-radius: 6px; cursor: pointer;
+      font-family: var(--font-head); font-size: 0.82rem;
+      letter-spacing: 2px; font-weight: 700; text-transform: uppercase;
+      transition: all var(--transition);
+      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+    }
+    .form-submit:hover {
+      background: #fff200;
+      box-shadow: 0 0 36px rgba(255,215,0,0.6);
+      transform: translateY(-1px);
+    }
+    .form-submit:disabled { background: #444; color: #888; box-shadow: none; cursor: not-allowed; transform: none; }
+
+    /* Success popup */
+    .success-popup {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.85);
+    }
+    .success-popup.show { display: flex; }
+    .popup-box {
+      background: #111;
+      border: 1px solid var(--gold);
+      border-radius: 12px; padding: 3rem 2.5rem;
+      text-align: center; max-width: 400px; width: 90%;
+      animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .popup-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .popup-box h3 {
+      font-family: var(--font-head); color: var(--gold);
+      font-size: 1rem; letter-spacing: 1.5px; margin-bottom: 0.8rem;
+    }
+    .popup-box p { color: #aaa; font-size: 0.88rem; margin-bottom: 1.5rem; }
+    .popup-close {
+      background: var(--gold); color: var(--black);
+      border: none; border-radius: 4px;
+      padding: 10px 28px; cursor: pointer;
+      font-family: var(--font-head); font-size: 0.75rem; font-weight: 700;
+    }
+
+    /* ============================================================
+       RULES SECTION
+    ============================================================ */
+    #rules {
+      background: #0d0d0d;
+      border-top: 1px solid var(--border);
+    }
+    .rules-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+      max-width: 900px;
+    }
+    .accordion {
+      border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; background: #101010;
+    }
+    .accordion-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; cursor: pointer;
+      transition: background var(--transition);
+    }
+    .accordion-header:hover { background: rgba(255,215,0,0.04); }
+    .accordion-header h4 {
+      font-family: var(--font-head); font-size: 0.75rem;
+      letter-spacing: 1px; color: var(--gold);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .accordion-header .icon { font-size: 1rem; }
+    .accordion-arrow {
+      color: var(--gold); font-size: 0.8rem;
+      transition: transform 0.3s;
+    }
+    .accordion.open .accordion-arrow { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 20px;
+    }
+    .accordion.open .accordion-body {
+      max-height: 300px; padding: 0 20px 16px;
+    }
+    .accordion-body p, .accordion-body li {
+      font-size: 0.83rem; color: #aaa; line-height: 1.7;
+    }
+    .accordion-body ul { padding-left: 1.2rem; list-style: disc; }
+
+    /* ============================================================
+       SELECTED PLAYERS
+    ============================================================ */
+    #players {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+    }
+    .players-tabs {
+      display: flex; gap: 0; margin-bottom: 2rem;
+      border: 1px solid var(--border); border-radius: 6px;
+      overflow: hidden; width: fit-content;
+    }
+    .tab-btn {
+      background: transparent; border: none; cursor: pointer;
+      font-family: var(--font-head); font-size: 0.7rem;
+      letter-spacing: 1.5px; color: var(--gray);
+      padding: 10px 28px; text-transform: uppercase;
+      transition: all var(--transition);
+    }
+    .tab-btn.active {
+      background: var(--gold); color: var(--black); font-weight: 700;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .players-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .player-card {
+      background: #101010; border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.2rem;
+      text-align: center; transition: all var(--transition);
+    }
+    .player-card:hover {
+      border-color: var(--gold-dim);
+      box-shadow: 0 0 20px rgba(255,215,0,0.08);
+    }
+    .player-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--gold-dim));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.8rem;
+      font-family: var(--font-head); font-size: 1.1rem; color: var(--black);
+      font-weight: 700;
+    }
+    .player-card .name {
+      font-size: 0.82rem; font-weight: 600; margin-bottom: 0.25rem;
+    }
+    .player-card .tag {
+      font-size: 0.7rem; color: var(--gold);
+      font-family: var(--font-head); letter-spacing: 1px;
+    }
+    .player-card .district { font-size: 0.7rem; color: var(--gray); margin-top: 4px; }
+    .empty-notice {
+      text-align: center; padding: 3rem;
+      border: 1px dashed var(--border); border-radius: 8px;
+      color: var(--gray); font-size: 0.85rem;
+    }
+    .empty-notice .big { font-size: 2.5rem; margin-bottom: 1rem; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: #080808;
+      border-top: 1px solid var(--border);
+      padding: 3rem 5% 2rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 2.5rem;
+    }
+    .footer-brand .brand {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
+    }
+    .footer-brand img {
+      height: 42px;
+      filter: drop-shadow(0 0 8px var(--gold-glow));
+    }
+    .footer-brand .brand span {
+      font-family: var(--font-head); font-size: 1rem;
+      font-weight: 700; color: var(--gold); letter-spacing: 2px;
+    }
+    .footer-brand p { color: #666; font-size: 0.83rem; line-height: 1.7; max-width: 320px; }
+    .footer-col h4 {
+      font-family: var(--font-head); font-size: 0.65rem;
+      letter-spacing: 3px; color: var(--gold); text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .footer-col a, .footer-col p {
+      display: block; color: #666; font-size: 0.83rem;
+      margin-bottom: 0.6rem; transition: color var(--transition);
+    }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { color: #444; font-size: 0.75rem; }
+    .footer-disclaimer {
+      font-size: 0.72rem; color: #444; margin-top: 0.4rem;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .rules-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      #hero-video { display: none; }
+      .hero-mobile-bg { display: block; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .register-card { padding: 2rem 1.5rem; }
+      .players-grid { grid-template-columns: repeat(2,1fr); }
+      section { padding: 60px 5%; }
+    }
+    @media (max-width: 400px) {
+      .players-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <img src="logo.png" alt="KERL Logo" />
+      <span data-key="brand">KERL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-key="nav_home">Home</a></li>
+      <li><a href="about.html" data-key="nav_about">About</a></li>
+      <li><a href="contact.html" data-key="nav_contact">Contact</a></li>
+      <li><a href="#register" class="btn-register" data-key="nav_register">Register</a></li>
+      <li>
+        <div class="lang-toggle">
+          <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="btn-ml" onclick="setLang('ml')">മലയ്</button>
+        </div>
+      </li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="lang-toggle" id="mobile-lang-nav" style="display:none;">
+        <button id="btn-en2" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-ml2" onclick="setLang('ml')">മലയ്</button>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" data-key="nav_home">Home</a>
+    <a href="about.html" data-key="nav_about">About</a>
+    <a href="contact.html" data-key="nav_contact">Contact</a>
+    <a href="#register" data-key="nav_register">Register</a>
+    <div class="mobile-lang">
+      <button class="lang-toggle" style="all:unset;cursor:pointer;" onclick="setLang('en')" id="mob-en"><span style="border:1px solid #FFD700;color:#FFD700;padding:4px 10px;border-radius:3px;font-size:0.72rem;">EN</span></button>
+      <button class="lang-toggle" style="all:unset;cursor:pointer;" onclick="setLang('ml')" id="mob-ml"><span style="border:1px solid #555;color:#888;padding:4px 10px;border-radius:3px;font-size:0.72rem;">മലയ്</span></button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <video id="hero-video" autoplay muted loop playsinline>
+      <source src="hero.mp4" type="video/mp4"/>
+    </video>
+    <div class="hero-mobile-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge" data-key="hero_badge">⚽ eFootball Tournament 2025</div>
+      <h1 class="hero-title">
+        <span class="gold">Kerala</span><br/>
+        eRaja League
+      </h1>
+      <p class="hero-subtitle" data-key="hero_sub">Rule the Game 👑</p>
+      <a href="#register" class="hero-cta" data-key="hero_cta">Register Now</a>
+    </div>
+    <div class="hero-scroll-hint">
+      <span data-key="hero_scroll">Scroll</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT PREVIEW
+  ============================================================ -->
+  <section id="about-preview" class="fade-in">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-tag" data-key="about_tag">About KERL</div>
+        <h2 class="section-title" data-key="about_title">Kerala's <span class="gold">Premier</span> eFootball Arena</h2>
+        <p class="section-desc" data-key="about_desc">
+          Kerala eRaja League (KERL) is the state's most exciting eFootball tournament, bringing together the finest virtual football talents from all 14 districts of Kerala. Compete, conquer, and claim your crown.
+        </p>
+        <a href="about.html" class="btn-outline" data-key="about_btn">Learn More →</a>
+      </div>
+      <div class="about-visual fade-in">
+        <div class="about-img-wrap">
+          <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=700&q=80" alt="Esports Arena"/>
+        </div>
+        <div class="about-stat-badge">
+          <div class="num">48</div>
+          <div class="lbl">Players</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TOURNAMENT INFO
+  ============================================================ -->
+  <section id="tournament" class="fade-in">
+    <div class="section-tag" data-key="tourn_tag">Tournament Format</div>
+    <h2 class="section-title" data-key="tourn_title">World Cup <span class="gold">Style</span> Format</h2>
+    <p class="section-desc" data-key="tourn_desc">48 players. 8 groups. 1 champion. The most thrilling eFootball bracket Kerala has ever seen.</p>
+    <div class="tournament-grid">
+      <div class="t-card fade-in">
+        <div class="icon">👥</div>
+        <h3 data-key="tc1_h">48 Players</h3>
+        <p data-key="tc1_p">48 talented players selected from across all 14 Kerala districts.</p>
+      </div>
+      <div class="t-card fade-in">
+        <div class="icon">🏆</div>
+        <h3 data-key="tc2_h">Group Stage</h3>
+        <p data-key="tc2_p">8 groups of 6 players each. Top 2 from every group advance to knockouts.</p>
+      </div>
+      <div class="t-card fade-in">
+        <div class="icon">⚔️</div>
+        <h3 data-key="tc3_h">Knockouts</h3>
+        <p data-key="tc3_p">Round of 16, Quarter-finals, Semi-finals, and the Grand Final.</p>
+      </div>
+      <div class="t-card fade-in">
+        <div class="icon">📱</div>
+        <h3 data-key="tc4_h">Platforms</h3>
+        <p data-key="tc4_p">Open to Mobile (eFootball App) and Console (PS/Xbox) players.</p>
+      </div>
+      <div class="t-card fade-in">
+        <div class="icon">💰</div>
+        <h3 data-key="tc5_h">Prize Pool</h3>
+        <p data-key="tc5_p">Exciting prizes for the top performers. Full details after selection.</p>
+      </div>
+      <div class="t-card fade-in">
+        <div class="icon">📅</div>
+        <h3 data-key="tc6_h">Schedule</h3>
+        <p data-key="tc6_p">Fixtures announced after registration closes. Stay tuned!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLOT COUNTER
+  ============================================================ -->
+  <section id="slots">
+    <div class="slot-display">
+      <div class="section-tag" style="align-self:center;" data-key="slots_tag">Live Registration</div>
+      <div class="slot-nums">
+        <span id="slotsFilled">0</span> / 48
+      </div>
+      <div class="slot-bar-wrap">
+        <div class="slot-bar" id="slotBar"></div>
+      </div>
+      <p class="slot-label" data-key="slots_label">Slots Filled — Register Before It's Full!</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       REGISTRATION
+  ============================================================ -->
+  <section id="register" class="fade-in">
+    <div style="text-align:center;margin-bottom:2.5rem;">
+      <div class="section-tag" style="display:inline-block;" data-key="reg_tag">Join the League</div>
+      <h2 class="section-title" data-key="reg_title">Register <span class="gold">Now</span></h2>
+      <p class="section-desc" style="margin:0 auto;" data-key="reg_desc">Fill in your details below. Selected players will be contacted via phone.</p>
+    </div>
+    <div class="register-wrap">
+      <div class="register-card">
+        <h2 data-key="reg_card_title">🎮 Player Registration</h2>
+        <form id="regForm" novalidate>
+
+          <div class="form-group">
+            <label data-key="lbl_pname">Player Name</label>
+            <input type="text" id="playerName" placeholder="Your full name" required/>
+          </div>
+
+          <div class="form-group">
+            <label data-key="lbl_gname">Gaming Name / Tag</label>
+            <input type="text" id="gamingName" placeholder="e.g. KingRaja_07" required/>
+          </div>
+
+          <div class="form-group">
+            <label data-key="lbl_phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="+91 99999 99999" required/>
+          </div>
+
+          <div class="form-group">
+            <label data-key="lbl_district">District</label>
+            <select id="district" required>
+              <option value="" disabled selected data-key="lbl_district_ph">Select your district</option>
+              <option>Thiruvananthapuram</option>
+              <option>Kollam</option>
+              <option>Pathanamthitta</option>
+              <option>Alappuzha</option>
+              <option>Kottayam</option>
+              <option>Idukki</option>
+              <option>Ernakulam</option>
+              <option>Thrissur</option>
+              <option>Palakkad</option>
+              <option>Malappuram</option>
+              <option>Kozhikode</option>
+              <option>Wayanad</option>
+              <option>Kannur</option>
+              <option>Kasaragod</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-key="lbl_device">Device</label>
+            <div class="device-group">
+              <div class="device-option">
+                <input type="radio" name="device" id="mobile" value="Mobile"/>
+                <label for="mobile"><span class="emoji">📱</span> <span data-key="dev_mobile">Mobile</span></label>
+              </div>
+              <div class="device-option">
+                <input type="radio" name="device" id="console" value="Console"/>
+                <label for="console"><span class="emoji">🎮</span> <span data-key="dev_console">Console</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="rules-agree">
+            <input type="checkbox" id="rulesCheck"/>
+            <span data-key="lbl_agree">I agree to the <a href="#rules">Tournament Rules</a> and fair play policy of Kerala eRaja League.</span>
+          </div>
+
+          <button type="submit" class="form-submit" id="regSubmit" data-key="btn_submit">Submit Registration</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RULES
+  ============================================================ -->
+  <section id="rules" class="fade-in">
+    <div class="section-tag" data-key="rules_tag">Official Rules</div>
+    <h2 class="section-title" data-key="rules_title">Tournament <span class="gold">Rules</span></h2>
+    <div class="rules-grid">
+
+      <div class="accordion" id="acc1">
+        <div class="accordion-header" onclick="toggleAcc('acc1')">
+          <h4><span class="icon">⚽</span> <span data-key="rule1_h">Match Rules</span></h4>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li data-key="rule1_1">All matches are played on official eFootball app/game.</li>
+            <li data-key="rule1_2">Group stage: 1 leg. Knockouts: Best of 1 (QF onwards: Best of 3).</li>
+            <li data-key="rule1_3">Match time and opponent assigned by organizers.</li>
+            <li data-key="rule1_4">No-shows without prior notice = automatic loss.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc2">
+        <div class="accordion-header" onclick="toggleAcc('acc2')">
+          <h4><span class="icon">🤝</span> <span data-key="rule2_h">Fair Play</span></h4>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li data-key="rule2_1">Respect all opponents and tournament officials.</li>
+            <li data-key="rule2_2">No trash talk, abuse, or discriminatory language.</li>
+            <li data-key="rule2_3">Violations may result in immediate disqualification.</li>
+            <li data-key="rule2_4">Sportsmanship is valued above results.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc3">
+        <div class="accordion-header" onclick="toggleAcc('acc3')">
+          <h4><span class="icon">🚫</span> <span data-key="rule3_h">No Cheating Policy</span></h4>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li data-key="rule3_1">Use of exploits, glitches, or hacks is strictly banned.</li>
+            <li data-key="rule3_2">Screen recording may be requested as proof.</li>
+            <li data-key="rule3_3">Any cheating = permanent ban from KERL tournaments.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc4">
+        <div class="accordion-header" onclick="toggleAcc('acc4')">
+          <h4><span class="icon">💳</span> <span data-key="rule4_h">Registration & Payment</span></h4>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li data-key="rule4_1">Registration is free. Entry fee (if any) will be communicated after selection.</li>
+            <li data-key="rule4_2">Do NOT pay anyone claiming to be from KERL without official confirmation.</li>
+            <li data-key="rule4_3">Refunds available only in case of tournament cancellation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc5">
+        <div class="accordion-header" onclick="toggleAcc('acc5')">
+          <h4><span class="icon">📱</span> <span data-key="rule5_h">Device & Connection</span></h4>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li data-key="rule5_1">Players are responsible for their own device and internet connection.</li>
+            <li data-key="rule5_2">Disconnection mid-match: replay only if both agree.</li>
+            <li data-key="rule5_3">Device must match category selected during registration.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc6">
+        <div class="accordion-header" onclick="toggleAcc('acc6')">
+          <h4><span class="icon">🏅</span> <span data-key="rule6_h">Selection Criteria</span></h4>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li data-key="rule6_1">Players will be selected based on experience and district representation.</li>
+            <li data-key="rule6_2">Selected players will be contacted by phone within 7 days.</li>
+            <li data-key="rule6_3">Waitlist players may be promoted if selected players withdraw.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SELECTED PLAYERS
+  ============================================================ -->
+  <section id="players" class="fade-in">
+    <div class="section-tag" data-key="players_tag">Player Roster</div>
+    <h2 class="section-title" data-key="players_title">Selected <span class="gold">Players</span></h2>
+    <div class="players-tabs">
+      <button class="tab-btn active" onclick="switchTab('selected')" data-key="tab_selected">Selected (0)</button>
+      <button class="tab-btn" onclick="switchTab('waiting')" data-key="tab_waiting">Waiting List (0)</button>
+    </div>
+    <div id="tab-selected" class="tab-content active">
+      <div class="empty-notice">
+        <div class="big">🎮</div>
+        <p data-key="players_empty">Selection in progress. Check back soon!</p>
+      </div>
+    </div>
+    <div id="tab-waiting" class="tab-content">
+      <div class="empty-notice">
+        <div class="big">⏳</div>
+        <p data-key="waiting_empty">Waitlist will be announced after registration closes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <img src="logo.png" alt="KERL Logo"/>
+          <span>Kerala eRaja League</span>
+        </div>
+        <p data-key="footer_desc">The premier eFootball tournament platform for Kerala's gaming community. Compete. Conquer. Reign.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-key="footer_nav">Navigation</h4>
+        <a href="index.html" data-key="nav_home">Home</a>
+        <a href="about.html" data-key="nav_about">About</a>
+        <a href="contact.html" data-key="nav_contact">Contact</a>
+        <a href="#register" data-key="nav_register">Register</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-key="footer_contact">Contact</h4>
+        <a href="mailto:keralaerajaleague@gmail.com">keralaerajaleague@gmail.com</a>
+        <p data-key="footer_social">Social: @KERL_Official</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <p>© 2025 Kerala eRaja League. All rights reserved.</p>
+        <p class="footer-disclaimer" data-key="disclaimer">Kerala eRaja League is an unofficial tournament and not affiliated with Konami.</p>
+      </div>
+      <p style="color:#333;font-size:0.72rem;">Designed with ❤️ in Kerala</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       SUCCESS POPUP
+  ============================================================ -->
+  <div class="success-popup" id="successPopup">
+    <div class="popup-box">
+      <div class="popup-icon">🏆</div>
+      <h3 data-key="popup_title">Registration Submitted Successfully!</h3>
+      <p data-key="popup_msg">Thank you! We'll review your registration and contact you via phone within 7 days.</p>
+      <button class="popup-close" onclick="closePopup()" data-key="popup_close">Close</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ---- Language Data ---- */
+    const LANG = {
+      en: {
+        brand: 'KERL',
+        nav_home: 'Home', nav_about: 'About', nav_contact: 'Contact', nav_register: 'Register',
+        hero_badge: '⚽ eFootball Tournament 2025',
+        hero_sub: 'Rule the Game 👑', hero_cta: 'Register Now', hero_scroll: 'Scroll',
+        about_tag: 'About KERL',
+        about_title: "Kerala's <span class='gold'>Premier</span> eFootball Arena",
+        about_desc: "Kerala eRaja League (KERL) is the state's most exciting eFootball tournament, bringing together the finest virtual football talents from all 14 districts of Kerala. Compete, conquer, and claim your crown.",
+        about_btn: 'Learn More →',
+        tourn_tag: 'Tournament Format', tourn_title: "World Cup <span class='gold'>Style</span> Format",
+        tourn_desc: '48 players. 8 groups. 1 champion. The most thrilling eFootball bracket Kerala has ever seen.',
+        tc1_h: '48 Players', tc1_p: '48 talented players selected from across all 14 Kerala districts.',
+        tc2_h: 'Group Stage', tc2_p: '8 groups of 6 players each. Top 2 from every group advance to knockouts.',
+        tc3_h: 'Knockouts', tc3_p: 'Round of 16, Quarter-finals, Semi-finals, and the Grand Final.',
+        tc4_h: 'Platforms', tc4_p: 'Open to Mobile (eFootball App) and Console (PS/Xbox) players.',
+        tc5_h: 'Prize Pool', tc5_p: 'Exciting prizes for the top performers. Full details after selection.',
+        tc6_h: 'Schedule', tc6_p: 'Fixtures announced after registration closes. Stay tuned!',
+        slots_tag: 'Live Registration', slots_label: 'Slots Filled — Register Before It\'s Full!',
+        reg_tag: 'Join the League', reg_title: "Register <span class='gold'>Now</span>",
+        reg_desc: 'Fill in your details below. Selected players will be contacted via phone.',
+        reg_card_title: '🎮 Player Registration',
+        lbl_pname: 'Player Name', lbl_gname: 'Gaming Name / Tag', lbl_phone: 'Phone Number',
+        lbl_district: 'District', lbl_district_ph: 'Select your district',
+        lbl_device: 'Device', dev_mobile: 'Mobile', dev_console: 'Console',
+        lbl_agree: 'I agree to the <a href="#rules">Tournament Rules</a> and fair play policy of Kerala eRaja League.',
+        btn_submit: 'Submit Registration',
+        rules_tag: 'Official Rules', rules_title: "Tournament <span class='gold'>Rules</span>",
+        rule1_h: 'Match Rules', rule2_h: 'Fair Play', rule3_h: 'No Cheating Policy',
+        rule4_h: 'Registration & Payment', rule5_h: 'Device & Connection', rule6_h: 'Selection Criteria',
+        rule1_1: 'All matches are played on official eFootball app/game.',
+        rule1_2: 'Group stage: 1 leg. Knockouts: Best of 1 (QF onwards: Best of 3).',
+        rule1_3: 'Match time and opponent assigned by organizers.',
+        rule1_4: 'No-shows without prior notice = automatic loss.',
+        rule2_1: 'Respect all opponents and tournament officials.',
+        rule2_2: 'No trash talk, abuse, or discriminatory language.',
+        rule2_3: 'Violations may result in immediate disqualification.',
+        rule2_4: 'Sportsmanship is valued above results.',
+        rule3_1: 'Use of exploits, glitches, or hacks is strictly banned.',
+        rule3_2: 'Screen recording may be requested as proof.',
+        rule3_3: 'Any cheating = permanent ban from KERL tournaments.',
+        rule4_1: 'Registration is free. Entry fee (if any) will be communicated after selection.',
+        rule4_2: 'Do NOT pay anyone claiming to be from KERL without official confirmation.',
+        rule4_3: 'Refunds available only in case of tournament cancellation.',
+        rule5_1: 'Players are responsible for their own device and internet connection.',
+        rule5_2: 'Disconnection mid-match: replay only if both agree.',
+        rule5_3: 'Device must match category selected during registration.',
+        rule6_1: 'Players will be selected based on experience and district representation.',
+        rule6_2: 'Selected players will be contacted by phone within 7 days.',
+        rule6_3: 'Waitlist players may be promoted if selected players withdraw.',
+        players_tag: 'Player Roster', players_title: "Selected <span class='gold'>Players</span>",
+        tab_selected: 'Selected (0)', tab_waiting: 'Waiting List (0)',
+        players_empty: 'Selection in progress. Check back soon!',
+        waiting_empty: 'Waitlist will be announced after registration closes.',
+        footer_desc: "The premier eFootball tournament platform for Kerala's gaming community. Compete. Conquer. Reign.",
+        footer_nav: 'Navigation', footer_contact: 'Contact', footer_social: 'Social: @KERL_Official',
+        disclaimer: 'Kerala eRaja League is an unofficial tournament and not affiliated with Konami.',
+        popup_title: 'Registration Submitted Successfully!',
+        popup_msg: "Thank you! We'll review your registration and contact you via phone within 7 days.",
+        popup_close: 'Close'
+      },
+      ml: {
+        brand: 'KERL',
+        nav_home: 'ഹോം', nav_about: 'ഞങ്ങളെക്കുറിച്ച്', nav_contact: 'ബന്ധപ്പെടുക', nav_register: 'രജിസ്‌റ്റർ',
+        hero_badge: '⚽ ഇ-ഫുട്‌ബോൾ ടൂർണമെന്റ് 2025',
+        hero_sub: 'ഗെയിം ഭരിക്കൂ 👑', hero_cta: 'ഇപ്പോൾ രജിസ്‌റ്റർ ചെയ്യൂ', hero_scroll: 'സ്ക്രോൾ',
+        about_tag: 'KERL-നെ കുറിച്ച്',
+        about_title: "കേരളത്തിന്റെ <span class='gold'>പ്രീമിയർ</span> ഇ-ഫുട്‌ബോൾ അരങ്ങ്",
+        about_desc: "കേരള ഇ-രാജ ലീഗ് (KERL) സംസ്ഥാനത്തിലെ ഏറ്റവും ആവേശഭരിതമായ ഇ-ഫുട്‌ബോൾ ടൂർണ്ണമെന്റ് ആണ്, കേരളത്തിലെ 14 ജില്ലകളിൽ നിന്നുമുള്ള മികച്ച കളിക്കാരെ ഒരുമിപ്പിക്കുന്നു.",
+        about_btn: 'കൂടുതൽ അറിയൂ →',
+        tourn_tag: 'ടൂർണ്ണമെന്റ് ഫോർമാറ്റ്', tourn_title: "വേൾഡ് കപ്പ് <span class='gold'>ശൈലി</span> ഫോർമാറ്റ്",
+        tourn_desc: '48 കളിക്കാർ. 8 ഗ്രൂപ്പുകൾ. 1 ചാംപ്യൻ. കേരളം കണ്ട ഏറ്റവും ത്രസിപ്പിക്കുന്ന ബ്രാക്കറ്റ്.',
+        tc1_h: '48 കളിക്കാർ', tc1_p: 'കേരളത്തിലെ 14 ജില്ലകളിൽ നിന്ന് 48 കളിക്കാർ.',
+        tc2_h: 'ഗ്രൂപ്പ് ഘട്ടം', tc2_p: '6 പേർ വീതം 8 ഗ്രൂപ്പുകൾ. ഓരോ ഗ്രൂപ്പിൽ നിന്ന് ടോപ്പ് 2 നോക്കൗട്ടിലേക്ക്.',
+        tc3_h: 'നോക്കൗട്ടുകൾ', tc3_p: 'റൗണ്ട് ഓഫ് 16, ക്വാർട്ടർ ഫൈനൽ, സെമി, ഗ്രാൻഡ് ഫൈനൽ.',
+        tc4_h: 'പ്ലാറ്റ്ഫോമുകൾ', tc4_p: 'മൊബൈൽ, കൺസോൾ (PS/Xbox) കളിക്കാർക്ക് തുറന്നത്.',
+        tc5_h: 'സമ്മാനം', tc5_p: 'ആവേശകരമായ സമ്മാനങ്ങൾ. തിരഞ്ഞെടുപ്പിന് ശേഷം വിവരങ്ങൾ.',
+        tc6_h: 'ഷെഡ്യൂൾ', tc6_p: 'രജിസ്ട്രേഷൻ അടഞ്ഞ ശേഷം ഫിക്ചർ പ്രഖ്യാപിക്കും.',
+        slots_tag: 'തൽസമയ രജിസ്ട്രേഷൻ', slots_label: 'സ്ലോട്ടുകൾ നിറഞ്ഞു — വൈകും മുൻ രജിസ്‌റ്റർ ചെയ്യൂ!',
+        reg_tag: 'ലീഗിൽ ചേരൂ', reg_title: "ഇപ്പോൾ <span class='gold'>രജിസ്‌റ്റർ</span>",
+        reg_desc: 'വിവരങ്ങൾ പൂരിപ്പിക്കൂ. തിരഞ്ഞെടുക്കപ്പെടുന്ന കളിക്കാരെ ഫോണിൽ ബന്ധപ്പെടും.',
+        reg_card_title: '🎮 കളിക്കാരൻ രജിസ്ട്രേഷൻ',
+        lbl_pname: 'കളിക്കാരന്റെ പേര്', lbl_gname: 'ഗെയിമിംഗ് നാമം / ടാഗ്', lbl_phone: 'ഫോൺ നമ്പർ',
+        lbl_district: 'ജില്ല', lbl_district_ph: 'ജില്ല തിരഞ്ഞെടുക്കൂ',
+        lbl_device: 'ഉപകരണം', dev_mobile: 'മൊബൈൽ', dev_console: 'കൺസോൾ',
+        lbl_agree: 'ഞാൻ <a href="#rules">ടൂർണ്ണമെന്റ് നിയമങ്ങൾ</a> അംഗീകരിക്കുന്നു.',
+        btn_submit: 'രജിസ്ട്രേഷൻ സമർപ്പിക്കൂ',
+        rules_tag: 'ഔദ്യോഗിക നിയമങ്ങൾ', rules_title: "ടൂർണ്ണമെന്റ് <span class='gold'>നിയമങ്ങൾ</span>",
+        rule1_h: 'മത്സര നിയമങ്ങൾ', rule2_h: 'ന്യായ കളി', rule3_h: 'ചീറ്റിംഗ് നിരോധനം',
+        rule4_h: 'രജിസ്ട്രേഷൻ & ഫീസ്', rule5_h: 'ഉപകരണം & കണക്ഷൻ', rule6_h: 'തിരഞ്ഞെടുപ്പ് മാനദണ്ഡം',
+        rule1_1: 'എല്ലാ മത്സരങ്ങളും ഔദ്യോഗിക ഇ-ഫുട്‌ബോൾ ആപ്പിൽ ആണ്.',
+        rule1_2: 'ഗ്രൂപ്പ് ഘട്ടം: 1 ലെഗ്. നോക്കൗട്ട്: ബെസ്റ്റ് ഓഫ് 1 (QF മുതൽ BO3).',
+        rule1_3: 'മത്സര സമയം ഓർഗനൈസർ നിശ്ചയിക്കും.',
+        rule1_4: 'അറിയിപ്പില്ലാതെ ഹാജരാകാത്തത് = ഓട്ടോ ലോസ്.',
+        rule2_1: 'എല്ലാ എതിരാളികളോടും ബഹുമാനത്തോടെ ഇടപെടൂ.',
+        rule2_2: 'അധിക്ഷേപം, വിദ്വേഷ ഭാഷ ഉപയോഗിക്കരുത്.',
+        rule2_3: 'ലംഘനം = ഉടനടി അയോഗ്യത.',
+        rule2_4: 'ഫലത്തേക്കാൾ കായിക മനോഭാവം വിലമതിക്കുന്നു.',
+        rule3_1: 'ഒഴിഞ്ഞ ഇടം, ബഗ്ഗുകൾ, ഹാക്കുകൾ ഉപയോഗം കർശനമായി നിരോധിച്ചിരിക്കുന്നു.',
+        rule3_2: 'സ്ക്രീൻ റെക്കോർഡിംഗ് തെളിവായി ആവശ്യപ്പെടാം.',
+        rule3_3: 'ഏത് ചീറ്റിംഗും = KERL-ൽ നിന്ന് ശാശ്വത നിരോധനം.',
+        rule4_1: 'രജിസ്ട്രേഷൻ സൗജന്യം. ഫീസ് (ഉണ്ടെങ്കിൽ) തിരഞ്ഞെടുപ്പിന് ശേഷം അറിയിക്കും.',
+        rule4_2: 'KERL-ൽ നിന്ന് ആണെന്ന് അവകാശപ്പെടുന്ന ആർക്കും ഔദ്യോഗിക സ്ഥിരീകരണം ഇല്ലാതെ പണം നൽകരുത്.',
+        rule4_3: 'ടൂർണ്ണമെന്റ് റദ്ദ് ആയാൽ മാത്രം റീഫണ്ട്.',
+        rule5_1: 'ഉപകരണവും ഇന്റർനെറ്റ് കണക്ഷനും സ്വന്തം ഉത്തരവാദിത്വം.',
+        rule5_2: 'ഡിസ്കണക്ഷൻ: ഇരുവരും സമ്മതിച്ചാൽ മാത്രം റീ-പ്ലേ.',
+        rule5_3: 'രജിസ്ട്രേഷൻ വേളയിൽ തിരഞ്ഞെടുത്ത ഉപകരണ വിഭാഗം പൊരുത്തപ്പെടണം.',
+        rule6_1: 'അനുഭവവും ജില്ലാ പ്രാതിനിധ്യവും അടിസ്ഥാനത്തിൽ തിരഞ്ഞെടുക്കും.',
+        rule6_2: '7 ദിവസത്തിനുള്ളിൽ ഫോണിൽ ബന്ധപ്പെടും.',
+        rule6_3: 'തിരഞ്ഞെടുക്കപ്പെട്ടവർ പിൻവലിഞ്ഞാൽ വെയ്‌റ്റ്‌ലിസ്‌റ്റ് ഉയർത്തപ്പെടും.',
+        players_tag: 'കളിക്കാർ', players_title: "തിരഞ്ഞെടുക്കപ്പെട്ട <span class='gold'>കളിക്കാർ</span>",
+        tab_selected: 'തിരഞ്ഞെടുക്കപ്പെട്ടവർ (0)', tab_waiting: 'കാത്തിരിപ്പ് പട്ടിക (0)',
+        players_empty: 'തിരഞ്ഞെടുപ്പ് പ്രക്രിയ നടക്കുന്നു. ഉടൻ വരൂ!',
+        waiting_empty: 'രജിസ്ട്രേഷൻ അടഞ്ഞ ശേഷം വെയ്‌റ്റ്‌ലിസ്‌റ്റ് പ്രഖ്യാപിക്കും.',
+        footer_desc: "കേരളത്തിലെ ഗെയിമിംഗ് സമൂഹത്തിന്റെ പ്രീമിയർ ഇ-ഫുട്‌ബോൾ ടൂർണ്ണമെന്റ് പ്ലാറ്റ്ഫോം.",
+        footer_nav: 'നാവിഗേഷൻ', footer_contact: 'ബന്ധപ്പെടുക', footer_social: 'സോഷ്യൽ: @KERL_Official',
+        disclaimer: 'Kerala eRaja League ഒരു അനൗദ്യോഗിക ടൂർണ്ണമെന്റ് ആണ്, Konami-യുമായി ബന്ധമില്ല.',
+        popup_title: 'രജിസ്ട്രേഷൻ വിജയകരമായി സമർപ്പിച്ചു!',
+        popup_msg: 'നന്ദി! ഞങ്ങൾ 7 ദിവസത്തിനുള്ളിൽ ഫോണിൽ ബന്ധപ്പെടും.',
+        popup_close: 'അടക്കുക'
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      const data = LANG[lang];
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (data[key] !== undefined) el.innerHTML = data[key];
+      });
+      // Toggle button states
+      ['btn-en','btn-en2'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.classList.toggle('active', lang === 'en');
+      });
+      ['btn-ml','btn-ml2'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.classList.toggle('active', lang === 'ml');
+      });
+    }
+
+    /* ---- Navbar scroll ---- */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    /* ---- Hamburger ---- */
+    const ham = document.getElementById('hamburger');
+    const mNav = document.getElementById('mobileNav');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('open');
+      mNav.classList.toggle('open');
+    });
+    document.querySelectorAll('.mobile-nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        ham.classList.remove('open');
+        mNav.classList.remove('open');
+      });
+    });
+
+    /* Show lang toggle on mobile */
+    if (window.innerWidth <= 700) {
+      document.getElementById('mobile-lang-nav').style.display = 'flex';
+    }
+
+    /* ---- Accordion ---- */
+    function toggleAcc(id) {
+      const acc = document.getElementById(id);
+      const wasOpen = acc.classList.contains('open');
+      document.querySelectorAll('.accordion').forEach(a => a.classList.remove('open'));
+      if (!wasOpen) acc.classList.add('open');
+    }
+
+    /* ---- Tab switch ---- */
+    function switchTab(name) {
+      document.querySelectorAll('.tab-btn').forEach((b,i) => {
+        b.classList.toggle('active', (i === 0 && name==='selected') || (i === 1 && name==='waiting'));
+      });
+      document.getElementById('tab-selected').classList.toggle('active', name === 'selected');
+      document.getElementById('tab-waiting').classList.toggle('active', name === 'waiting');
+    }
+
+    /* ---- Slot Counter Simulation ---- */
+    let slotsCount = 0;
+    const slotTarget = 7; // simulate 7 filled
+    const slotEl = document.getElementById('slotsFilled');
+    const slotBar = document.getElementById('slotBar');
+
+    function animateSlots() {
+      const step = () => {
+        if (slotsCount < slotTarget) {
+          slotsCount++;
+          slotEl.textContent = slotsCount;
+          slotBar.style.width = (slotsCount / 48 * 100) + '%';
+          setTimeout(step, 180);
+        }
+      };
+      step();
+    }
+    // Trigger when slots section is visible
+    const slotObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { animateSlots(); slotObserver.disconnect(); } });
+    }, { threshold: 0.4 });
+    slotObserver.observe(document.getElementById('slots'));
+
+    /* ---- Registration Form ---- */
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('playerName').value.trim();
+      const gname = document.getElementById('gamingName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const district = document.getElementById('district').value;
+      const device = document.querySelector('input[name="device"]:checked');
+      const agreed = document.getElementById('rulesCheck').checked;
+
+      if (!name || !gname || !phone || !district || !device || !agreed) {
+        alert(currentLang === 'ml' ? 'ദയവായി എല്ലാ ഫീൽഡുകളും പൂരിപ്പിക്കൂ.' : 'Please fill in all fields and agree to the rules.');
+        return;
+      }
+      document.getElementById('successPopup').classList.add('show');
+      this.reset();
+    });
+
+    function closePopup() {
+      document.getElementById('successPopup').classList.remove('show');
+    }
+    document.getElementById('successPopup').addEventListener('click', function(e) {
+      if (e.target === this) closePopup();
+    });
+
+    /* ---- Fade In Observer ---- */
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => fadeObs.observe(el));
+  </script>
+</body>
+</html>

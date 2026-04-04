@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – Kerala eRaja League</title>
+  <link rel="icon" href="logo.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0b0b0b; --gold: #FFD700; --gold-dim: #c9a900;
+      --gold-glow: rgba(255,215,0,0.35); --green: #0f3d2e; --green-light: #155e45;
+      --white: #f0f0f0; --gray: #888; --card-bg: #111; --border: rgba(255,215,0,0.18);
+      --font-head: 'Orbitron', sans-serif; --font-body: 'Poppins', sans-serif;
+      --transition: 0.3s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--font-body); overflow-x: hidden; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* NAVBAR */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 70px;
+      background: rgba(11,11,11,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    #navbar.scrolled { box-shadow: 0 4px 30px rgba(255,215,0,0.1); }
+    .nav-brand { display: flex; align-items: center; gap: 12px; }
+    .nav-brand img { height: 44px; filter: drop-shadow(0 0 8px var(--gold-glow)); }
+    .nav-brand span { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-head); font-size: 0.72rem; letter-spacing: 1.5px;
+      font-weight: 600; color: var(--white); text-transform: uppercase;
+      padding: 6px 0; border-bottom: 2px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .nav-links .btn-register { background: var(--gold); color: var(--black); padding: 8px 18px; border-radius: 4px; border-bottom: none; font-weight: 700; }
+    .nav-links .btn-register:hover { background: #fff200; box-shadow: 0 0 18px var(--gold-glow); }
+    .lang-toggle { display: flex; align-items: center; gap: 6px; margin-left: 1.5rem; }
+    .lang-toggle button {
+      background: none; border: 1px solid var(--border); color: var(--gray);
+      padding: 4px 10px; border-radius: 3px; cursor: pointer;
+      font-size: 0.7rem; font-family: var(--font-head); transition: all var(--transition);
+    }
+    .lang-toggle button.active { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 700; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    .mobile-nav {
+      display: none; position: fixed; top: 70px; left: 0; right: 0; z-index: 999;
+      background: rgba(11,11,11,0.97); border-bottom: 1px solid var(--border);
+      padding: 1.5rem 5%; flex-direction: column; gap: 1.2rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { font-family: var(--font-head); font-size: 0.85rem; color: var(--white); padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .mobile-nav a:hover { color: var(--gold); }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding-top: 70px; min-height: 280px;
+      display: flex; align-items: center;
+      background:
+        linear-gradient(135deg, rgba(15,61,46,0.5), rgba(11,11,11,0.9)),
+        url('https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1400&q=80') center/cover no-repeat;
+      border-bottom: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'CONTACT'; position: absolute; right: -2rem; bottom: -1rem;
+      font-family: var(--font-head); font-size: 9rem; font-weight: 900;
+      color: rgba(255,215,0,0.04); line-height: 1; pointer-events: none;
+    }
+    .page-hero-content { padding: 0 5%; animation: fadeUp 1s ease both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .page-hero .crumb { font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 3px; color: var(--gold); margin-bottom: 1rem; text-transform: uppercase; }
+    .page-hero h1 { font-family: var(--font-head); font-size: clamp(2rem,5vw,3.5rem); font-weight: 900; letter-spacing: 1px; }
+    .page-hero h1 .gold { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+    .page-hero p { color: #aaa; font-size: 1rem; margin-top: 1rem; max-width: 480px; }
+
+    /* SECTION */
+    section { padding: 80px 5%; }
+    .section-tag { display: inline-block; font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; border-left: 3px solid var(--gold); padding-left: 10px; margin-bottom: 1rem; }
+    .section-title { font-family: var(--font-head); font-size: clamp(1.6rem,4vw,2.6rem); font-weight: 700; letter-spacing: 1px; margin-bottom: 1rem; line-height: 1.2; }
+    .section-title .gold { color: var(--gold); }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* CONTACT GRID */
+    #contact-main { background: linear-gradient(135deg, rgba(15,61,46,0.12), rgba(11,11,11,0)); }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; }
+
+    /* INFO SIDE */
+    .contact-info h2 { font-family: var(--font-head); font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.2; }
+    .contact-info .gold { color: var(--gold); }
+    .contact-info > p { color: #aaa; font-size: 0.9rem; margin-bottom: 2.5rem; line-height: 1.8; }
+    .info-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .info-card {
+      background: #101010; border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.4rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem;
+      transition: all var(--transition);
+    }
+    .info-card:hover { border-color: var(--gold-dim); box-shadow: 0 0 20px rgba(255,215,0,0.07); }
+    .info-card .ic-icon { font-size: 1.5rem; margin-top: 2px; flex-shrink: 0; }
+    .info-card h4 { font-family: var(--font-head); font-size: 0.65rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 0.4rem; text-transform: uppercase; }
+    .info-card p, .info-card a { font-size: 0.85rem; color: #bbb; line-height: 1.6; }
+    .info-card a:hover { color: var(--gold); }
+
+    /* FORM SIDE */
+    .contact-form-wrap {
+      background: #0f0f0f; border: 1px solid var(--border); border-radius: 12px;
+      padding: 2.5rem; position: relative; overflow: hidden;
+    }
+    .contact-form-wrap::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+    }
+    .contact-form-wrap h3 {
+      font-family: var(--font-head); font-size: 1rem; letter-spacing: 2px;
+      color: var(--gold); margin-bottom: 2rem; text-align: center;
+    }
+    .form-group { margin-bottom: 1.3rem; }
+    .form-group label { display: block; font-size: 0.7rem; letter-spacing: 1.5px; color: var(--gray); margin-bottom: 0.5rem; font-family: var(--font-head); text-transform: uppercase; }
+    .form-group input, .form-group textarea {
+      width: 100%; background: #181818; border: 1px solid #2a2a2a;
+      color: var(--white); font-family: var(--font-body); font-size: 0.9rem;
+      padding: 12px 16px; border-radius: 6px; outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,215,0,0.08);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: #444; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-submit {
+      width: 100%; padding: 15px;
+      background: var(--gold); color: var(--black);
+      border: none; border-radius: 6px; cursor: pointer;
+      font-family: var(--font-head); font-size: 0.82rem;
+      letter-spacing: 2px; font-weight: 700; text-transform: uppercase;
+      transition: all var(--transition);
+      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+    }
+    .form-submit:hover { background: #fff200; box-shadow: 0 0 36px rgba(255,215,0,0.6); transform: translateY(-1px); }
+
+    /* Success */
+    .contact-success {
+      display: none; text-align: center; padding: 2rem 0;
+    }
+    .contact-success.show { display: block; }
+    .contact-form-wrap.sent .contact-form { display: none; }
+    .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .contact-success h4 { font-family: var(--font-head); color: var(--gold); font-size: 0.9rem; letter-spacing: 1.5px; margin-bottom: 0.7rem; }
+    .contact-success p { color: #aaa; font-size: 0.85rem; }
+
+    /* FAQ */
+    #faq { background: #0d0d0d; border-top: 1px solid var(--border); }
+    .faq-list { max-width: 760px; }
+    .faq-item {
+      border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; background: #101010; margin-bottom: 1rem;
+    }
+    .faq-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; cursor: pointer; transition: background var(--transition);
+    }
+    .faq-header:hover { background: rgba(255,215,0,0.04); }
+    .faq-header h4 { font-family: var(--font-head); font-size: 0.75rem; letter-spacing: 1px; color: var(--white); }
+    .faq-arrow { color: var(--gold); font-size: 0.8rem; transition: transform 0.3s; }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 20px; }
+    .faq-item.open .faq-body { max-height: 200px; padding: 0 20px 16px; }
+    .faq-body p { font-size: 0.85rem; color: #aaa; line-height: 1.7; }
+
+    /* FOOTER */
+    footer { background: #080808; border-top: 1px solid var(--border); padding: 3rem 5% 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
+    .footer-brand .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+    .footer-brand img { height: 42px; filter: drop-shadow(0 0 8px var(--gold-glow)); }
+    .footer-brand .brand span { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+    .footer-brand p { color: #666; font-size: 0.83rem; line-height: 1.7; max-width: 320px; }
+    .footer-col h4 { font-family: var(--font-head); font-size: 0.65rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 1.2rem; }
+    .footer-col a, .footer-col p { display: block; color: #666; font-size: 0.83rem; margin-bottom: 0.6rem; transition: color var(--transition); }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { color: #444; font-size: 0.75rem; }
+    .footer-disclaimer { font-size: 0.72rem; color: #444; margin-top: 0.4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 700px) {
+      .nav-links { display: none; } .hamburger { display: flex; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      section { padding: 60px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <img src="logo.png" alt="KERL"/>
+      <span>KERL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="index.html#register" class="btn-register">Register</a></li>
+      <li>
+        <div class="lang-toggle">
+          <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="btn-ml" onclick="setLang('ml')">മലയ്</button>
+        </div>
+      </li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="index.html#register">Register</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <p class="crumb" data-key="crumb">Home → Contact</p>
+      <h1><span class="gold" data-key="ph_title">Contact</span> <span data-key="ph_title2">Us</span></h1>
+      <p data-key="ph_desc">Got a question? We'd love to hear from you. Drop us a message!</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTACT -->
+  <section id="contact-main" class="fade-in">
+    <div class="contact-layout">
+
+      <!-- Left Info -->
+      <div class="contact-info">
+        <div class="section-tag" data-key="info_tag">Get In Touch</div>
+        <h2 data-key="info_title">We're <span class="gold">Here</span> for You</h2>
+        <p data-key="info_desc">Have a question about registration, rules, schedules, or anything else? Reach out and our team will get back to you as soon as possible.</p>
+
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="ic-icon">📧</div>
+            <div>
+              <h4 data-key="ic1_h">Email Us</h4>
+              <a href="mailto:keralaerajaleague@gmail.com">keralaerajaleague@gmail.com</a>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon">⏰</div>
+            <div>
+              <h4 data-key="ic2_h">Response Time</h4>
+              <p data-key="ic2_p">We typically respond within 24–48 hours. For urgent matters, email us directly.</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon">📍</div>
+            <div>
+              <h4 data-key="ic3_h">Location</h4>
+              <p data-key="ic3_p">Online Tournament — Open to all Kerala residents.</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon">📱</div>
+            <div>
+              <h4 data-key="ic4_h">Social Media</h4>
+              <p>@KERL_Official</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form -->
+      <div class="contact-form-wrap fade-in" id="contactFormWrap">
+        <h3 data-key="form_title">📩 Send a Message</h3>
+        <div class="contact-form" id="contactFormInner">
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label data-key="lbl_name">Your Name</label>
+                <input type="text" id="cName" placeholder="Full name" required/>
+              </div>
+              <div class="form-group">
+                <label data-key="lbl_email">Email Address</label>
+                <input type="email" id="cEmail" placeholder="you@email.com" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label data-key="lbl_subject">Subject</label>
+              <input type="text" id="cSubject" placeholder="e.g. Registration query" required/>
+            </div>
+            <div class="form-group">
+              <label data-key="lbl_message">Message</label>
+              <textarea id="cMessage" placeholder="Write your message here..." required></textarea>
+            </div>
+            <button type="submit" class="form-submit" data-key="btn_send">Send Message</button>
+          </form>
+        </div>
+        <div class="contact-success" id="contactSuccess">
+          <div class="success-icon">✅</div>
+          <h4 data-key="csuccess_h">Message Sent!</h4>
+          <p data-key="csuccess_p">Thank you for reaching out. We'll get back to you within 24–48 hours.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="fade-in">
+    <div class="section-tag" data-key="faq_tag">Frequently Asked</div>
+    <h2 class="section-title" data-key="faq_title">Common <span class="gold">Questions</span></h2>
+    <div class="faq-list">
+
+      <div class="faq-item" id="f1">
+        <div class="faq-header" onclick="toggleFaq('f1')">
+          <h4 data-key="faq1_q">How do I register for KERL?</h4>
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-body"><p data-key="faq1_a">Visit the Home page and scroll to the Registration section. Fill in all required details and submit. You'll be contacted by phone if selected.</p></div>
+      </div>
+
+      <div class="faq-item" id="f2">
+        <div class="faq-header" onclick="toggleFaq('f2')">
+          <h4 data-key="faq2_q">Is there a registration fee?</h4>
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-body"><p data-key="faq2_a">Registration is completely free. If there is an entry fee, it will only be communicated officially after you are selected, and you will never be asked to pay upfront by anyone.</p></div>
+      </div>
+
+      <div class="faq-item" id="f3">
+        <div class="faq-header" onclick="toggleFaq('f3')">
+          <h4 data-key="faq3_q">Can I participate from any district of Kerala?</h4>
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-body"><p data-key="faq3_a">Yes! KERL is open to players from all 14 districts of Kerala. In fact, we encourage district-wise representation for a more balanced and exciting tournament.</p></div>
+      </div>
+
+      <div class="faq-item" id="f4">
+        <div class="faq-header" onclick="toggleFaq('f4')">
+          <h4 data-key="faq4_q">What devices are supported?</h4>
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-body"><p data-key="faq4_a">KERL supports both Mobile (eFootball app) and Console (PlayStation or Xbox) players. Make sure you select the correct device during registration.</p></div>
+      </div>
+
+      <div class="faq-item" id="f5">
+        <div class="faq-header" onclick="toggleFaq('f5')">
+          <h4 data-key="faq5_q">When will I know if I'm selected?</h4>
+          <span class="faq-arrow">▼</span>
+        </div>
+        <div class="faq-body"><p data-key="faq5_a">Selected players will be contacted via phone within 7 days of the registration closing. You can also check the Selected Players section on the homepage.</p></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand"><img src="logo.png" alt="KERL"/><span>Kerala eRaja League</span></div>
+        <p>The premier eFootball tournament platform for Kerala's gaming community.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html#register">Register</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:keralaerajaleague@gmail.com">keralaerajaleague@gmail.com</a>
+        <p>Social: @KERL_Official</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <p>© 2025 Kerala eRaja League. All rights reserved.</p>
+        <p class="footer-disclaimer">Kerala eRaja League is an unofficial tournament and not affiliated with Konami.</p>
+      </div>
+      <p style="color:#333;font-size:0.72rem;">Designed with ❤️ in Kerala</p>
+    </div>
+  </footer>
+
+  <script>
+    const LANG_CONTACT = {
+      en: {
+        crumb:'Home → Contact', ph_title:'Contact', ph_title2:'Us',
+        ph_desc:'Got a question? We\'d love to hear from you. Drop us a message!',
+        info_tag:'Get In Touch', info_title:"We're <span class='gold'>Here</span> for You",
+        info_desc:'Have a question about registration, rules, or schedules? Reach out and we\'ll get back to you.',
+        ic1_h:'Email Us', ic2_h:'Response Time', ic2_p:'We typically respond within 24–48 hours.',
+        ic3_h:'Location', ic3_p:'Online Tournament — Open to all Kerala residents.',
+        ic4_h:'Social Media',
+        form_title:'📩 Send a Message',
+        lbl_name:'Your Name', lbl_email:'Email Address', lbl_subject:'Subject',
+        lbl_message:'Message', btn_send:'Send Message',
+        csuccess_h:'Message Sent!', csuccess_p:"Thank you for reaching out. We'll get back to you within 24–48 hours.",
+        faq_tag:'Frequently Asked', faq_title:"Common <span class='gold'>Questions</span>",
+        faq1_q:'How do I register for KERL?',
+        faq1_a:'Visit the Home page and scroll to Registration. Fill in details and submit.',
+        faq2_q:'Is there a registration fee?',
+        faq2_a:'Registration is free. Any entry fee will only be communicated after official selection.',
+        faq3_q:'Can I participate from any Kerala district?',
+        faq3_a:'Yes! All 14 districts are welcome. We encourage district-wise representation.',
+        faq4_q:'What devices are supported?',
+        faq4_a:'Mobile (eFootball app) and Console (PS/Xbox). Choose correct device at registration.',
+        faq5_q:'When will I know if I\'m selected?',
+        faq5_a:'Selected players will be contacted by phone within 7 days of registration closing.'
+      },
+      ml: {
+        crumb:'ഹോം → ബന്ധപ്പെടുക', ph_title:'ബന്ധ', ph_title2:'പ്പെടുക',
+        ph_desc:'ഒരു ചോദ്യം ഉണ്ടോ? ഞങ്ങൾക്ക് ഒരു സന്ദേശം അയക്കൂ!',
+        info_tag:'ബന്ധപ്പെടുക', info_title:"ഞങ്ങൾ <span class='gold'>ഇവിടെ</span> ഉണ്ട്",
+        info_desc:'രജിസ്ട്രേഷൻ, നിയമങ്ങൾ, ഷെഡ്യൂൾ എന്നിവയിൽ ചോദ്യങ്ങൾ ഉണ്ടോ? ഞങ്ങൾ ഉത്തരം നൽകാം.',
+        ic1_h:'ഇ-മെയിൽ', ic2_h:'മറുപടി സമയം', ic2_p:'24–48 മണിക്കൂറിനുള്ളിൽ ഞങ്ങൾ മറുപടി നൽകും.',
+        ic3_h:'സ്ഥലം', ic3_p:'ഓൺലൈൻ ടൂർണ്ണമെന്റ് — കേരളത്തിലെ എല്ലാ നിവാസികൾക്കും.',
+        ic4_h:'സോഷ്യൽ മീഡിയ',
+        form_title:'📩 സന്ദേശം അയക്കൂ',
+        lbl_name:'നിങ്ങളുടെ പേര്', lbl_email:'ഇ-മെയിൽ', lbl_subject:'വിഷയം',
+        lbl_message:'സന്ദേശം', btn_send:'സന്ദേശം അയക്കൂ',
+        csuccess_h:'സന്ദേശം ലഭിച്ചു!', csuccess_p:'നന്ദി! 24–48 മണിക്കൂറിനുള്ളിൽ ഞങ്ങൾ ബന്ധപ്പെടും.',
+        faq_tag:'പതിവ് ചോദ്യങ്ങൾ', faq_title:"സാധാരണ <span class='gold'>ചോദ്യങ്ങൾ</span>",
+        faq1_q:'KERL-ൽ എങ്ങനെ രജിസ്‌റ്റർ ചെയ്യാം?',
+        faq1_a:'ഹോം പേജ് സന്ദർശിച്ച് രജിസ്ട്രേഷൻ വിഭാഗത്തിലേക്ക് സ്ക്രോൾ ചെയ്ത് ഫോം പൂരിപ്പിക്കൂ.',
+        faq2_q:'രജിസ്ട്രേഷൻ ഫീസ് ഉണ്ടോ?',
+        faq2_a:'രജിസ്ട്രേഷൻ സൗജന്യമാണ്. ഫീസ് ഉണ്ടെങ്കിൽ തിരഞ്ഞെടുപ്പിന് ശേഷം മാത്രം അറിയിക്കും.',
+        faq3_q:'ഏത് ജില്ലയിൽ നിന്നും പങ്കെടുക്കാമോ?',
+        faq3_a:'അതെ! 14 ജില്ലകളിൽ നിന്നും സ്വാഗതം.',
+        faq4_q:'ഏത് ഉപകരണങ്ങൾ പിന്തുണയ്ക്കുന്നു?',
+        faq4_a:'മൊബൈൽ (ഇ-ഫുട്ബോൾ ആപ്പ്) & കൺസോൾ (PS/Xbox).',
+        faq5_q:'ഞാൻ തിരഞ്ഞെടുക്കപ്പെട്ടു എന്ന് എപ്പോൾ അറിയും?',
+        faq5_a:'7 ദിവസത്തിനുള്ളിൽ ഫോണിൽ ബന്ധപ്പെടും.'
+      }
+    };
+
+    let currentLang = 'en';
+    function setLang(lang) {
+      currentLang = lang;
+      const data = LANG_CONTACT[lang];
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (data[key] !== undefined) el.innerHTML = data[key];
+      });
+      document.getElementById('btn-en').classList.toggle('active', lang==='en');
+      document.getElementById('btn-ml').classList.toggle('active', lang==='ml');
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const ham = document.getElementById('hamburger');
+    const mNav = document.getElementById('mobileNav');
+    ham.addEventListener('click', () => { ham.classList.toggle('open'); mNav.classList.toggle('open'); });
+
+    /* Contact Form */
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const n = document.getElementById('cName').value.trim();
+      const em = document.getElementById('cEmail').value.trim();
+      const sub = document.getElementById('cSubject').value.trim();
+      const msg = document.getElementById('cMessage').value.trim();
+      if (!n || !em || !sub || !msg) {
+        alert(currentLang === 'ml' ? 'ദയവായി എല്ലാ ഫീൽഡുകളും പൂരിപ്പിക്കൂ.' : 'Please fill in all fields.');
+        return;
+      }
+      document.getElementById('contactFormInner').style.display = 'none';
+      document.getElementById('contactSuccess').classList.add('show');
+    });
+
+    /* FAQ */
+    function toggleFaq(id) {
+      const item = document.getElementById(id);
+      const was = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!was) item.classList.add('open');
+    }
+
+    /* Fade */
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

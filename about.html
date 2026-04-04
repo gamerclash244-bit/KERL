@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About – Kerala eRaja League</title>
+  <link rel="icon" href="logo.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0b0b0b; --gold: #FFD700; --gold-dim: #c9a900;
+      --gold-glow: rgba(255,215,0,0.35); --green: #0f3d2e; --green-light: #155e45;
+      --white: #f0f0f0; --gray: #888; --card-bg: #111; --border: rgba(255,215,0,0.18);
+      --font-head: 'Orbitron', sans-serif; --font-body: 'Poppins', sans-serif;
+      --transition: 0.3s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--font-body); overflow-x: hidden; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* NAVBAR */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 70px;
+      background: rgba(11,11,11,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); transition: box-shadow var(--transition);
+    }
+    #navbar.scrolled { box-shadow: 0 4px 30px rgba(255,215,0,0.1); }
+    .nav-brand { display: flex; align-items: center; gap: 12px; }
+    .nav-brand img { height: 44px; width: auto; filter: drop-shadow(0 0 8px var(--gold-glow)); }
+    .nav-brand span { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a {
+      font-family: var(--font-head); font-size: 0.72rem; letter-spacing: 1.5px;
+      font-weight: 600; color: var(--white); text-transform: uppercase;
+      padding: 6px 0; border-bottom: 2px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .nav-links .btn-register {
+      background: var(--gold); color: var(--black); padding: 8px 18px; border-radius: 4px;
+      border-bottom: none; font-weight: 700; transition: background var(--transition), box-shadow var(--transition);
+    }
+    .nav-links .btn-register:hover { background: #fff200; box-shadow: 0 0 18px var(--gold-glow); }
+    .lang-toggle { display: flex; align-items: center; gap: 6px; margin-left: 1.5rem; }
+    .lang-toggle button {
+      background: none; border: 1px solid var(--border); color: var(--gray);
+      padding: 4px 10px; border-radius: 3px; cursor: pointer;
+      font-size: 0.7rem; font-family: var(--font-head); transition: all var(--transition);
+    }
+    .lang-toggle button.active { background: var(--gold); color: var(--black); border-color: var(--gold); font-weight: 700; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    .mobile-nav {
+      display: none; position: fixed; top: 70px; left: 0; right: 0; z-index: 999;
+      background: rgba(11,11,11,0.97); border-bottom: 1px solid var(--border);
+      padding: 1.5rem 5%; flex-direction: column; gap: 1.2rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { font-family: var(--font-head); font-size: 0.85rem; letter-spacing: 1.5px; color: var(--white); padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover { color: var(--gold); }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding-top: 70px;
+      min-height: 340px;
+      display: flex; align-items: center;
+      background:
+        linear-gradient(135deg, rgba(15,61,46,0.5) 0%, rgba(11,11,11,0.9) 100%),
+        url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80') center/cover no-repeat;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'KERL'; position: absolute; right: -2rem; bottom: -2rem;
+      font-family: var(--font-head); font-size: 12rem; font-weight: 900;
+      color: rgba(255,215,0,0.04); letter-spacing: -4px; line-height: 1;
+      pointer-events: none;
+    }
+    .page-hero-content { padding: 0 5%; animation: fadeUp 1s ease both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .page-hero .crumb {
+      font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 3px;
+      color: var(--gold); margin-bottom: 1rem; text-transform: uppercase;
+    }
+    .page-hero h1 {
+      font-family: var(--font-head); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900; letter-spacing: 1px; line-height: 1.1;
+    }
+    .page-hero h1 .gold { color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+    .page-hero p { color: #aaa; font-size: 1rem; margin-top: 1rem; max-width: 550px; }
+
+    /* SECTIONS */
+    section { padding: 80px 5%; }
+    .section-tag {
+      display: inline-block; font-family: var(--font-head); font-size: 0.6rem;
+      letter-spacing: 4px; color: var(--gold); text-transform: uppercase;
+      border-left: 3px solid var(--gold); padding-left: 10px; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-head); font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 700; letter-spacing: 1px; margin-bottom: 1rem; line-height: 1.2;
+    }
+    .section-title .gold { color: var(--gold); }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* STORY SECTION */
+    #story { background: linear-gradient(135deg, rgba(15,61,46,0.15), rgba(11,11,11,0)); border-bottom: 1px solid var(--border); }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .story-text p { color: #aaa; font-size: 0.92rem; line-height: 1.85; margin-bottom: 1rem; }
+    .story-img { position: relative; }
+    .story-img img {
+      width: 100%; border-radius: 8px; border: 1px solid var(--border);
+      filter: grayscale(20%); height: 400px; object-fit: cover;
+    }
+    .story-img::before {
+      content: ''; position: absolute; inset: -8px;
+      border: 1px solid rgba(255,215,0,0.12); border-radius: 12px; z-index: -1;
+    }
+
+    /* MISSION VISION */
+    #mission { background: #0d0d0d; }
+    .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .mv-card {
+      background: #101010; border: 1px solid var(--border); border-radius: 12px;
+      padding: 2.5rem 2rem; position: relative; overflow: hidden;
+      transition: all var(--transition);
+    }
+    .mv-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+    }
+    .mv-card:hover { border-color: var(--gold-dim); box-shadow: 0 4px 30px rgba(255,215,0,0.08); transform: translateY(-4px); }
+    .mv-icon { font-size: 2.5rem; margin-bottom: 1.2rem; }
+    .mv-card h3 { font-family: var(--font-head); font-size: 0.9rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 1rem; text-transform: uppercase; }
+    .mv-card p { color: #aaa; font-size: 0.88rem; line-height: 1.8; }
+
+    /* VALUES */
+    #values { background: var(--black); }
+    .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .value-card {
+      background: #0f0f0f; border: 1px solid var(--border); border-radius: 8px;
+      padding: 2rem 1.5rem; text-align: center; transition: all var(--transition);
+    }
+    .value-card:hover { border-color: var(--gold-dim); box-shadow: 0 0 20px rgba(255,215,0,0.07); }
+    .value-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .value-card h4 { font-family: var(--font-head); font-size: 0.7rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 0.6rem; text-transform: uppercase; }
+    .value-card p { color: #666; font-size: 0.82rem; }
+
+    /* TEAM */
+    #team { background: #0d0d0d; border-top: 1px solid var(--border); }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .team-card {
+      background: #101010; border: 1px solid var(--border); border-radius: 10px;
+      padding: 2rem 1.5rem; text-align: center; transition: all var(--transition);
+    }
+    .team-card:hover { border-color: var(--gold-dim); box-shadow: 0 0 24px rgba(255,215,0,0.08); }
+    .team-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--gold-dim));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      font-family: var(--font-head); font-size: 1.4rem; color: var(--black); font-weight: 700;
+      border: 2px solid rgba(255,215,0,0.2);
+    }
+    .team-card h4 { font-family: var(--font-head); font-size: 0.72rem; letter-spacing: 1px; color: var(--white); margin-bottom: 0.3rem; }
+    .team-card .role { font-size: 0.72rem; color: var(--gold); letter-spacing: 1px; }
+
+    /* STATS */
+    #stats { background: linear-gradient(135deg, rgba(15,61,46,0.3), rgba(11,11,11,0.8)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 60px 5%; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: var(--font-head); font-size: clamp(2rem,5vw,3.5rem); font-weight: 900; color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+    .stat-label { font-size: 0.7rem; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; margin-top: 0.4rem; font-family: var(--font-head); }
+
+    /* CTA */
+    #cta { text-align: center; background: #080808; border-top: 1px solid var(--border); padding: 80px 5%; }
+    #cta h2 { font-family: var(--font-head); font-size: clamp(1.5rem,3vw,2.2rem); margin-bottom: 1rem; letter-spacing: 1px; }
+    #cta p { color: #aaa; font-size: 0.9rem; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .btn-gold {
+      display: inline-block; background: var(--gold); color: var(--black);
+      font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 2px;
+      padding: 14px 38px; border-radius: 4px; text-transform: uppercase; font-weight: 700;
+      transition: all var(--transition); box-shadow: 0 0 16px var(--gold-glow);
+    }
+    .btn-gold:hover { background: #fff200; box-shadow: 0 0 32px rgba(255,215,0,0.7); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer { background: #080808; border-top: 1px solid var(--border); padding: 3rem 5% 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
+    .footer-brand .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+    .footer-brand img { height: 42px; filter: drop-shadow(0 0 8px var(--gold-glow)); }
+    .footer-brand .brand span { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+    .footer-brand p { color: #666; font-size: 0.83rem; line-height: 1.7; max-width: 320px; }
+    .footer-col h4 { font-family: var(--font-head); font-size: 0.65rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 1.2rem; }
+    .footer-col a, .footer-col p { display: block; color: #666; font-size: 0.83rem; margin-bottom: 0.6rem; transition: color var(--transition); }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { color: #444; font-size: 0.75rem; }
+    .footer-disclaimer { font-size: 0.72rem; color: #444; margin-top: 0.4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .story-grid, .mv-grid { grid-template-columns: 1fr; }
+      .story-img { display: none; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+      section { padding: 60px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-brand">
+      <img src="logo.png" alt="KERL"/>
+      <span>KERL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html#register" class="btn-register">Register</a></li>
+      <li>
+        <div class="lang-toggle">
+          <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="btn-ml" onclick="setLang('ml')">മലയ്</button>
+        </div>
+      </li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="index.html#register">Register</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <p class="crumb" data-key="crumb">Home → About</p>
+      <h1><span class="gold" data-key="ph_title1">About</span> <span data-key="ph_title2">Kerala eRaja League</span></h1>
+      <p data-key="ph_desc">The story behind Kerala's most exciting eFootball tournament.</p>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section id="story" class="fade-in">
+    <div class="story-grid">
+      <div class="story-text">
+        <div class="section-tag" data-key="story_tag">Our Story</div>
+        <h2 class="section-title" data-key="story_title">Born from a <span class="gold">Passion</span> for the Game</h2>
+        <p data-key="story_p1">Kerala eRaja League (KERL) was born from a simple idea: bring Kerala's passionate eFootball community together and give them a stage worthy of their talent. From casual players to hardcore competitors, KERL is for everyone who bleeds football.</p>
+        <p data-key="story_p2">We organize structured, fair, and transparent tournaments following the World Cup format — 48 players, 8 groups, and a knockout bracket that culminates in one ultimate champion claiming the eRaja crown.</p>
+        <p data-key="story_p3">Whether you're playing on mobile or console, KERL is your arena. Represent your district, prove your skill, and write your name into Kerala's esports history.</p>
+      </div>
+      <div class="story-img fade-in">
+        <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=700&q=80" alt="Gaming Setup"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div id="stats" class="fade-in">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-num" data-key="stat1_n">48</div><div class="stat-label" data-key="stat1_l">Players per Season</div></div>
+      <div class="stat-item"><div class="stat-num" data-key="stat2_n">14</div><div class="stat-label" data-key="stat2_l">Kerala Districts</div></div>
+      <div class="stat-item"><div class="stat-num" data-key="stat3_n">8</div><div class="stat-label" data-key="stat3_l">Group Stages</div></div>
+      <div class="stat-item"><div class="stat-num" data-key="stat4_n">1</div><div class="stat-label" data-key="stat4_l">eRaja Champion</div></div>
+    </div>
+  </div>
+
+  <!-- MISSION & VISION -->
+  <section id="mission" class="fade-in">
+    <div class="section-tag" data-key="mv_tag">Our Purpose</div>
+    <h2 class="section-title" data-key="mv_title">Mission & <span class="gold">Vision</span></h2>
+    <div class="mv-grid">
+      <div class="mv-card fade-in">
+        <div class="mv-icon">🎯</div>
+        <h3 data-key="mission_h">Our Mission</h3>
+        <p data-key="mission_p">To create a fair, inclusive, and world-class eFootball tournament experience for players across all 14 districts of Kerala. We are committed to nurturing talent, building community, and elevating the standard of competitive gaming in the state.</p>
+      </div>
+      <div class="mv-card fade-in">
+        <div class="mv-icon">👁️</div>
+        <h3 data-key="vision_h">Our Vision</h3>
+        <p data-key="vision_p">To become the most respected esports organization in Kerala, launching careers, inspiring the next generation of gamers, and putting Kerala on the national and global esports map. We envision a future where KERL is the gateway to professional esports.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section id="values" class="fade-in">
+    <div class="section-tag" data-key="val_tag">What We Stand For</div>
+    <h2 class="section-title" data-key="val_title">Our <span class="gold">Core</span> Values</h2>
+    <div class="values-grid">
+      <div class="value-card fade-in">
+        <div class="value-icon">⚖️</div>
+        <h4 data-key="val1_h">Fairness</h4>
+        <p data-key="val1_p">Every player deserves a level playing field. We enforce strict anti-cheat and fair play policies.</p>
+      </div>
+      <div class="value-card fade-in">
+        <div class="value-icon">🤝</div>
+        <h4 data-key="val2_h">Community</h4>
+        <p data-key="val2_p">We build more than tournaments — we build friendships, rivalries, and a thriving gaming family.</p>
+      </div>
+      <div class="value-card fade-in">
+        <div class="value-icon">🏆</div>
+        <h4 data-key="val3_h">Excellence</h4>
+        <p data-key="val3_p">We push every player to be their best. KERL rewards skill, dedication, and sportsmanship.</p>
+      </div>
+      <div class="value-card fade-in">
+        <div class="value-icon">🌱</div>
+        <h4 data-key="val4_h">Growth</h4>
+        <p data-key="val4_p">From amateur to pro, we believe in developing talent and helping every player grow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="fade-in">
+    <div class="section-tag" data-key="team_tag">The Team</div>
+    <h2 class="section-title" data-key="team_title">Behind <span class="gold">KERL</span></h2>
+    <div class="team-grid">
+      <div class="team-card fade-in">
+        <div class="team-avatar">R</div>
+        <h4 data-key="t1_n">Rajesh Kumar</h4>
+        <div class="role" data-key="t1_r">Founder & Director</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar">A</div>
+        <h4 data-key="t2_n">Arjun Nair</h4>
+        <div class="role" data-key="t2_r">Tournament Manager</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar">S</div>
+        <h4 data-key="t3_n">Sreejith Menon</h4>
+        <div class="role" data-key="t3_r">Technical Lead</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar">P</div>
+        <h4 data-key="t4_n">Priya Krishnan</h4>
+        <div class="role" data-key="t4_r">Community Manager</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="fade-in">
+    <h2 data-key="cta_h">Ready to <span style="color:var(--gold)">Play?</span></h2>
+    <p data-key="cta_p">Join 48 of Kerala's finest eFootball players. Register now before slots fill up.</p>
+    <a href="index.html#register" class="btn-gold" data-key="cta_btn">Register Now →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand"><img src="logo.png" alt="KERL"/><span>Kerala eRaja League</span></div>
+        <p>The premier eFootball tournament platform for Kerala's gaming community.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html#register">Register</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:keralaerajaleague@gmail.com">keralaerajaleague@gmail.com</a>
+        <p>Social: @KERL_Official</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <p>© 2025 Kerala eRaja League. All rights reserved.</p>
+        <p class="footer-disclaimer">Kerala eRaja League is an unofficial tournament and not affiliated with Konami.</p>
+      </div>
+      <p style="color:#333;font-size:0.72rem;">Designed with ❤️ in Kerala</p>
+    </div>
+  </footer>
+
+  <script>
+    const LANG_ABOUT = {
+      en: {
+        crumb: 'Home → About', ph_title1: 'About', ph_title2: 'Kerala eRaja League',
+        ph_desc: "The story behind Kerala's most exciting eFootball tournament.",
+        story_tag: 'Our Story', story_title: "Born from a <span class='gold'>Passion</span> for the Game",
+        story_p1: "Kerala eRaja League (KERL) was born from a simple idea: bring Kerala's passionate eFootball community together and give them a stage worthy of their talent.",
+        story_p2: "We organize structured, fair, and transparent tournaments following the World Cup format — 48 players, 8 groups, and a knockout bracket.",
+        story_p3: "Whether you're playing on mobile or console, KERL is your arena. Represent your district, prove your skill.",
+        stat1_n:'48', stat1_l:'Players per Season', stat2_n:'14', stat2_l:'Kerala Districts',
+        stat3_n:'8', stat3_l:'Group Stages', stat4_n:'1', stat4_l:'eRaja Champion',
+        mv_tag:'Our Purpose', mv_title:"Mission & <span class='gold'>Vision</span>",
+        mission_h:'Our Mission', mission_p:'To create a fair, inclusive, and world-class eFootball tournament experience for players across all 14 districts of Kerala.',
+        vision_h:'Our Vision', vision_p:'To become the most respected esports organization in Kerala, launching careers and inspiring the next generation of gamers.',
+        val_tag:'What We Stand For', val_title:"Our <span class='gold'>Core</span> Values",
+        val1_h:'Fairness', val1_p:'Every player deserves a level playing field.',
+        val2_h:'Community', val2_p:"We build more than tournaments — we build friendships and a thriving gaming family.",
+        val3_h:'Excellence', val3_p:'KERL rewards skill, dedication, and sportsmanship.',
+        val4_h:'Growth', val4_p:'We believe in developing talent and helping every player grow.',
+        team_tag:'The Team', team_title:"Behind <span class='gold'>KERL</span>",
+        t1_n:'Rajesh Kumar', t1_r:'Founder & Director',
+        t2_n:'Arjun Nair', t2_r:'Tournament Manager',
+        t3_n:'Sreejith Menon', t3_r:'Technical Lead',
+        t4_n:'Priya Krishnan', t4_r:'Community Manager',
+        cta_h:"Ready to <span style='color:var(--gold)'>Play?</span>",
+        cta_p:"Join 48 of Kerala's finest eFootball players. Register now before slots fill up.",
+        cta_btn:'Register Now →'
+      },
+      ml: {
+        crumb: 'ഹോം → ഞങ്ങളെക്കുറിച്ച്', ph_title1: 'ഞങ്ങളെക്കുറിച്ച്', ph_title2: 'കേരള ഇ-രാജ ലീഗ്',
+        ph_desc: 'കേരളത്തിലെ ഏറ്റവും ആവേശകരമായ ഇ-ഫുട്ബോൾ ടൂർണ്ണമെന്റിന്റെ കഥ.',
+        story_tag: 'ഞങ്ങളുടെ കഥ', story_title: "ഗെയിമോടുള്ള <span class='gold'>ആവേശ</span>ത്തിൽ നിന്ന്",
+        story_p1: 'കേരള ഇ-രാജ ലീഗ് ഒരു ലളിതമായ ആശയത്തിൽ നിന്ന് ജനിച്ചു: കേരളത്തിലെ ഇ-ഫുട്ബോൾ കമ്മ്യൂണിറ്റിയെ ഒരുമിപ്പിക്കുക.',
+        story_p2: 'ഞങ്ങൾ ലോകകപ്പ് ഫോർമാറ്റ് — 48 കളിക്കാർ, 8 ഗ്രൂപ്പുകൾ, നോക്കൗട്ട് ബ്രാക്കറ്റ്.',
+        story_p3: 'മൊബൈലിലോ കൺസോളിലോ കളിക്കൂ, KERL നിങ്ങളുടെ അരങ്ങ്.',
+        stat1_n:'48', stat1_l:'കളിക്കാർ', stat2_n:'14', stat2_l:'ജില്ലകൾ',
+        stat3_n:'8', stat3_l:'ഗ്രൂപ്പ് ഘട്ടങ്ങൾ', stat4_n:'1', stat4_l:'ഇ-രാജ ചാംപ്യൻ',
+        mv_tag:'ഞങ്ങളുടെ ലക്ഷ്യം', mv_title:"മിഷൻ & <span class='gold'>വിഷൻ</span>",
+        mission_h:'ഞങ്ങളുടെ മിഷൻ', mission_p:'കേരളത്തിലെ 14 ജില്ലകളിലുമുള്ള കളിക്കാർക്ക് ഒരു നല്ല ടൂർണ്ണമെന്റ് അനുഭവം നൽകുക.',
+        vision_h:'ഞങ്ങളുടെ വിഷൻ', vision_p:'കേരളത്തിലെ ഏറ്റവും ബഹുമാനിക്കപ്പെടുന്ന ഇ-സ്പോർട്ട്സ് ഓർഗനൈസേഷൻ ആകുക.',
+        val_tag:'ഞങ്ങൾ വിശ്വസിക്കുന്നത്', val_title:"ഞങ്ങളുടെ <span class='gold'>മൂല്യങ്ങൾ</span>",
+        val1_h:'നീതി', val1_p:'എല്ലാ കളിക്കാർക്കും തുല്യ അവസരം.',
+        val2_h:'സമൂഹം', val2_p:'ടൂർണ്ണമെന്റുകൾ മാത്രമല്ല, ഒരു ഗെയിമിംഗ് കുടുംബം.',
+        val3_h:'മികവ്', val3_p:'KERL നൈപുണ്യം, ആത്മസമർപ്പണം, കായിക മനോഭാവം ആദരിക്കുന്നു.',
+        val4_h:'വളർച്ച', val4_p:'കളിക്കാർ പ്രൊഫഷണൽ ആകാൻ ഞങ്ങൾ സഹായിക്കുന്നു.',
+        team_tag:'ടീം', team_title:"<span class='gold'>KERL</span>-ന്റെ പിന്നിൽ",
+        t1_n:'രാജേഷ് കുമാർ', t1_r:'ഫൗണ്ടർ & ഡയറക്ടർ',
+        t2_n:'അർജ്ജുൻ നായർ', t2_r:'ടൂർണ്ണമെന്റ് മാനേജർ',
+        t3_n:'ശ്രീജിത്ത് മേനോൻ', t3_r:'ടെക്നിക്കൽ ലീഡ്',
+        t4_n:'പ്രിയ കൃഷ്ണൻ', t4_r:'കമ്മ്യൂണിറ്റി മാനേജർ',
+        cta_h:"<span style='color:var(--gold)'>കളിക്കാൻ</span> തയ്യാറോ?",
+        cta_p:'48 കളിക്കാരിൽ ഒരാൾ ആകൂ. ഇപ്പോൾ രജിസ്‌റ്റർ ചെയ്യൂ.',
+        cta_btn:'ഇപ്പോൾ രജിസ്‌റ്റർ ചെയ്യൂ →'
+      }
+    };
+
+    let currentLang = 'en';
+    function setLang(lang) {
+      currentLang = lang;
+      const data = LANG_ABOUT[lang];
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (data[key] !== undefined) el.innerHTML = data[key];
+      });
+      document.getElementById('btn-en').classList.toggle('active', lang==='en');
+      document.getElementById('btn-ml').classList.toggle('active', lang==='ml');
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const ham = document.getElementById('hamburger');
+    const mNav = document.getElementById('mobileNav');
+    ham.addEventListener('click', () => { ham.classList.toggle('open'); mNav.classList.toggle('open'); });
+
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
