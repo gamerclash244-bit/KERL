@@ -747,9 +747,6 @@
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVBAR
-  ============================================================ -->
   <nav id="navbar">
     <a href="index.html" class="nav-brand">
       <img src="logo.png" alt="KERL Logo" />
@@ -778,7 +775,6 @@
     </div>
   </nav>
 
-  <!-- Mobile Nav -->
   <div class="mobile-nav" id="mobileNav">
     <a href="index.html" data-key="nav_home">Home</a>
     <a href="about.html" data-key="nav_about">About</a>
@@ -790,9 +786,6 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       HERO
-  ============================================================ -->
   <section id="hero">
     <video id="hero-video" autoplay muted loop playsinline>
       <source src="hero.mp4" type="video/mp4"/>
@@ -814,9 +807,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       ABOUT PREVIEW
-  ============================================================ -->
   <section id="about-preview" class="fade-in">
     <div class="about-grid">
       <div class="about-text">
@@ -839,9 +829,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       TOURNAMENT INFO
-  ============================================================ -->
   <section id="tournament" class="fade-in">
     <div class="section-tag" data-key="tourn_tag">Tournament Format</div>
     <h2 class="section-title" data-key="tourn_title">World Cup <span class="gold">Style</span> Format</h2>
@@ -880,9 +867,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       SLOT COUNTER
-  ============================================================ -->
   <section id="slots">
     <div class="slot-display">
       <div class="section-tag" style="align-self:center;" data-key="slots_tag">Live Registration</div>
@@ -896,9 +880,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       REGISTRATION
-  ============================================================ -->
   <section id="register" class="fade-in">
     <div style="text-align:center;margin-bottom:2.5rem;">
       <div class="section-tag" style="display:inline-block;" data-key="reg_tag">Join the League</div>
@@ -971,9 +952,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       RULES
-  ============================================================ -->
   <section id="rules" class="fade-in">
     <div class="section-tag" data-key="rules_tag">Official Rules</div>
     <h2 class="section-title" data-key="rules_title">Tournament <span class="gold">Rules</span></h2>
@@ -1067,9 +1045,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       SELECTED PLAYERS
-  ============================================================ -->
   <section id="players" class="fade-in">
     <div class="section-tag" data-key="players_tag">Player Roster</div>
     <h2 class="section-title" data-key="players_title">Selected <span class="gold">Players</span></h2>
@@ -1091,9 +1066,6 @@
     </div>
   </section>
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
@@ -1125,9 +1097,6 @@
     </div>
   </footer>
 
-  <!-- ============================================================
-       SUCCESS POPUP
-  ============================================================ -->
   <div class="success-popup" id="successPopup">
     <div class="popup-box">
       <div class="popup-icon">🏆</div>
@@ -1137,9 +1106,6 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       JAVASCRIPT
-  ============================================================ -->
   <script>
     /* ---- Language Data ---- */
     const LANG = {
@@ -1350,37 +1316,76 @@
     }, { threshold: 0.4 });
     slotObserver.observe(document.getElementById('slots'));
 
-    /* ---- Registration Form ---- */
-    document.getElementById('regForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('playerName').value.trim();
-      const gname = document.getElementById('gamingName').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const district = document.getElementById('district').value;
-      const device = document.querySelector('input[name="device"]:checked');
-      const agreed = document.getElementById('rulesCheck').checked;
-
-      if (!name || !gname || !phone || !district || !device || !agreed) {
-        alert(currentLang === 'ml' ? 'ദയവായി എല്ലാ ഫീൽഡുകളും പൂരിപ്പിക്കൂ.' : 'Please fill in all fields and agree to the rules.');
-        return;
-      }
-      document.getElementById('successPopup').classList.add('show');
-      this.reset();
-    });
-
-    function closePopup() {
-      document.getElementById('successPopup').classList.remove('show');
-    }
-    document.getElementById('successPopup').addEventListener('click', function(e) {
-      if (e.target === this) closePopup();
-    });
-
     /* ---- Fade In Observer ---- */
     const fadeEls = document.querySelectorAll('.fade-in');
     const fadeObs = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.12 });
     fadeEls.forEach(el => fadeObs.observe(el));
+
+    /* ---- Registration Form ---- */
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('playerName').value.trim();
+      const gname = document.getElementById('gamingName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const district = document.getElementById('district').value;
+      const device = document.querySelector('input[name="device"]:checked');
+      const agreed = document.getElementById('rulesCheck').checked;
+      const submitBtn = document.getElementById('regSubmit');
+
+      if (!name || !gname || !phone || !district || !device || !agreed) {
+        alert(currentLang === 'ml' ? 'ദയവായി എല്ലാ ഫീൽഡുകളും പൂരിപ്പിക്കൂ.' : 'Please fill in all fields and agree to the rules.');
+        return;
+      }
+
+      // Temporarily disable the submit button to prevent duplicate clicks
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = currentLang === 'ml' ? 'സമർപ്പിക്കുന്നു...' : 'Submitting...';
+      submitBtn.disabled = true;
+
+      // Google Form submission URL (using /formResponse instead of /prefill)
+      const formURL = 'https://docs.google.com/forms/d/1SYm9xFrFrWSwi08pp7OPsLhgK8DyoHC_6Clos4cnFhs/formResponse';
+      
+      // Map data to the Google Form's specific entry IDs
+      const formData = new FormData();
+      formData.append('entry.601498790', name);
+      formData.append('entry.1378151087', gname);
+      formData.append('entry.1332279000', phone);
+      formData.append('entry.1423535478', district.toLowerCase()); // Google form expects lowercase
+      formData.append('entry.1491395247', device.value.toLowerCase()); // Google form expects lowercase
+
+      // Send the request using no-cors to bypass cross-origin restrictions
+      fetch(formURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      })
+      .then(() => {
+        // Because 'no-cors' is used, we won't get a strict success code back, 
+        // but if the promise resolves, it means the request was sent.
+        document.getElementById('successPopup').classList.add('show');
+        this.reset();
+      })
+      .catch((error) => {
+        console.error('Submission failed:', error);
+        alert('Something went wrong. Please try again.');
+      })
+      .finally(() => {
+        // Restore button state
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      });
+    });
+
+    function closePopup() {
+      document.getElementById('successPopup').classList.remove('show');
+    }
+    
+    document.getElementById('successPopup').addEventListener('click', function(e) {
+      if (e.target === this) closePopup();
+    });
   </script>
 </body>
 </html>
